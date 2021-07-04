@@ -8,6 +8,7 @@ This is for people who need to create new thumbnails from templates they have al
 
 ## How does this work?
 It's as basic as opening the terminal and executing the program with arguments/flags. Flags (except for the project) is in this format: **--flag-name:flag-value**. This is a working example you can use: `python main.py --python --image:python.jpg --fs:60 --x:415 --y:405 --text:"Part 43:" --font:ubuntu/Ubuntu-Bold --text:"Lambda Functions" --x:455 --y:475 --fs:90 --font:ubuntu/Ubuntu-BoldItalic`
+
 A breakdown of the above:
 
 `python main.py` - execute the program
@@ -17,6 +18,7 @@ A breakdown of the above:
 `--image:python.jpg` - the image that should be used (location: *base-thumbnails/python.jpg*)
 
 `--fs:60` - set the font size to 60
+
 `--x:415 --y:405` - the x & y position of the text that should be added
 
 `--text:"Part 43:"` - the text that should be added. If you want text to span more than 1 word, then **" "** is required.
