@@ -1,12 +1,14 @@
 import argparse
+import re
 
 from PIL import Image, ImageDraw, ImageFont
 from termcolor import colored
 
 """
 RULES:
-Below is a working example:
+Below are working examples:
 python main.py python.jpg -fs 60 90 -x 415 455 -y 405 475 --text "Part 43:" "Lambda Functions" --font ubuntu/Ubuntu-Bold ubuntu/Ubuntu-BoldItalic
+python main.py tkinter.jpg -fs 60 90 -x 80 150 -y 455 525 --text "Lesson 1:" "Creating our first Window" --font ubuntu/Ubuntu-Bold ubuntu/Ubuntu-BoldItalic
 
 Explaination:
 python -> the python program
@@ -26,10 +28,10 @@ Complex example:
 python main.py python.jpg -fs 60 90 -x 415 455 -y 405 475 --text "Part 43:" "Lambda Functions" --font ubuntu/Ubuntu-Bold ubuntu/Ubuntu-BoldItalic -tc 255 255 255 -tc 0 0 0 -bw 1 2 -bc 255 0 0 -bc 0 255 0
 """
 
-# TODO: no-border, output, project, config file
-
 parser = argparse.ArgumentParser() # define the parser
 parser.add_argument("image", help="The image that should be modified.", type=str, metavar='')
+parser.add_argument("--save", "-s", help="The output (save) location of the image.", type=str, metavar='')
+
 # nargs -> allows us to take in multiple values with the same flag eg. -t "hello world" "I am cool" -> ["hello world", "I am cool"]
 parser.add_argument("--text", "-t", help="The text that should be added to the image.", type=str, metavar='', nargs="+")
 parser.add_argument("--font-size", "-fs", help="Size the font should be.", type=int, metavar='', nargs="+")
@@ -39,11 +41,14 @@ parser.add_argument("--y-pos", "-y", help="The y position the text should be at 
 parser.add_argument("--text-color", "-tc", help="The color of the text in RGB format. eg. -tc 0 100 255", type=int, metavar='', nargs="+", action="append")
 parser.add_argument("--border-color", "-bc", help="The color of the border in Tuple-RGB format. eg. -bc 0 100 255", type=int, metavar='', nargs="+", action="append")
 parser.add_argument("--border-width", "-bw", help="The width (size) of text border", type=int, metavar='', nargs="+")
+
 parser.add_argument("--no-border", help="Wether a border should be added round text.", action="store_true")
-parser.add_argument("--output", "-o", help="The output location of the image.", type=str, metavar='')
+parser.add_argument("--no-preview", help="Do not show a preview of the image.", action="store_true")
+parser.add_argument("--quiet", help="Ignore all warnings.", action="store_true")
+
 args = parser.parse_args()
 
-print(args)
+# print(args)
 
 def giveError(message: str) -> None:
     """Display error message and exits program"""
@@ -51,8 +56,9 @@ def giveError(message: str) -> None:
     exit()
 
 def giveWarning(message: str) -> None:
-    """Display warning message"""
-    print(colored(f"Warning: {message}", 'yellow'))
+    """Display warning message, but does NOT exit the program"""
+    if not args.quiet:
+        print(colored(f"Warning: {message}", 'yellow'))
 
 def drawText(draw, text, font, font_size, x, y, text_color, border_width, border_color) -> None:
     """This draws the text to the image, draw and text are required inputs, the rest are optional"""
@@ -69,6 +75,9 @@ def drawText(draw, text, font, font_size, x, y, text_color, border_width, border
     
 def createThumbnail() -> None:
     """This will create the thumbnail"""
+    if args.quiet:
+        print("Not showing warnings")
+    
     try:
         imgFace = Image.open(f"base-thumbnails/{args.image}")
     except FileNotFoundError:
@@ -98,12 +107,15 @@ def createThumbnail() -> None:
         except TypeError:
             text_color = (0, 0, 0)
             
-        try:
-            border_width = args.border_width[count]
-        except IndexError:
-            border_width = args.border_width[-1]
-        except TypeError:
-            border_width = 2
+        if not args.no_border:
+            try:
+                border_width = args.border_width[count]
+            except IndexError:
+                border_width = args.border_width[-1]
+            except TypeError:
+                border_width = 2
+        else:
+            border_width = 0
         
         try:
             border_color = tuple(args.border_color[count])
@@ -115,11 +127,25 @@ def createThumbnail() -> None:
         drawText(draw=draw, text=text, x=x_pos, y=y_pos, text_color=text_color, font=font_family, font_size=font_size, border_width=border_width, border_color=border_color)
 
         count += 1
-    imgFace.show()
-
+        
+    if args.save:
+        if not re.search("[^\w\-_\. ]", args.save):
+            if args.save.split(".")[-1].lower() in ["jpg", "jpeg", "png"]:
+                imgFace.save(f"saves/{args.save}")
+            else:
+                giveWarning("Invalid file name extension. Defaulting to jpg.")
+                imgFace.save(f"saves/{args.save}.jpg")
+        else:
+            giveError("Invalid characters in file name.")
+            
+    if not args.no_preview:
+        imgFace.show()
+    else:
+        giveWarning("Not showing preview.")
+            
 if __name__ == '__main__':
     if (len(args.x_pos) != len(args.y_pos)) or (len(args.x_pos) != len(args.text)):
-        giveWarning("x, y and text does not have the same amount of arguments.")
+        giveError("x, y and text does not have the same amount of arguments.")
         
     createThumbnail()
 
