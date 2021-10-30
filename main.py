@@ -9,6 +9,7 @@ RULES:
 Below are working examples:
 python main.py python.jpg -fs 60 90 -x 415 455 -y 405 475 --text "Part 43:" "Lambda Functions" --font ubuntu/Ubuntu-Bold ubuntu/Ubuntu-BoldItalic
 python main.py tkinter.jpg -fs 60 90 -x 80 150 -y 455 525 --text "Lesson 1:" "Creating our first Window" --font ubuntu/Ubuntu-Bold ubuntu/Ubuntu-BoldItalic
+python main.py cpp.jpg -fs 60 140 -x 70 150 -y 350 450 --text "Lesson 2:" "Hello World" --font ubuntu/Ubuntu-Bold ubuntu/Ubuntu-BoldItalic -tc 255 255 255 -bc 0 0 0 -bc 99 154 210 -bw 3
 
 Explaination:
 python -> the python program
@@ -23,9 +24,6 @@ python.jpg -> image that should be modified
 1. There has to be ONE image selected and it has to be the FIRST parameter
 2. There should be an equal amount of x, y and text arguments
 3. Text seperated by spaces should be in ""
-
-Complex example:
-python main.py python.jpg -fs 60 90 -x 415 455 -y 405 475 --text "Part 43:" "Lambda Functions" --font ubuntu/Ubuntu-Bold ubuntu/Ubuntu-BoldItalic -tc 255 255 255 -tc 0 0 0 -bw 1 2 -bc 255 0 0 -bc 0 255 0
 """
 
 parser = argparse.ArgumentParser() # define the parser
