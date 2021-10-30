@@ -1,5 +1,4 @@
-import argparse
-import re
+import argparse, re, os
 
 from PIL import Image, ImageDraw, ImageFont
 from termcolor import colored
@@ -57,6 +56,23 @@ def giveWarning(message: str) -> None:
     """Display warning message, but does NOT exit the program"""
     if not args.quiet:
         print(colored(f"Warning: {message}", 'yellow'))
+
+def saveFile(imgFace: Image, fileWarningGiven=False) -> None:
+    if not re.search("[^\w\-_\. ]", args.save):
+        try:
+            if args.save.split(".")[-1].lower() in ["jpg", "jpeg", "png"]:
+                imgFace.save(f"saves/{args.save}")
+            else:
+                if not fileWarningGiven:
+                    giveWarning("Invalid file name extension. Defaulting to jpg.")
+                imgFace.save(f"saves/{args.save}.jpg")
+        except FileNotFoundError:
+            giveWarning("No saves folder detected. Creating new folder.")
+            if not os.path.exists("saves/"):
+                os.makedirs("saves/")
+            saveFile(imgFace, True)
+    else:
+        giveError("Invalid characters in file name.")
 
 def drawText(draw, text, font, font_size, x, y, text_color, border_width, border_color) -> None:
     """This draws the text to the image, draw and text are required inputs, the rest are optional"""
@@ -127,14 +143,7 @@ def createThumbnail() -> None:
         count += 1
         
     if args.save:
-        if not re.search("[^\w\-_\. ]", args.save):
-            if args.save.split(".")[-1].lower() in ["jpg", "jpeg", "png"]:
-                imgFace.save(f"saves/{args.save}")
-            else:
-                giveWarning("Invalid file name extension. Defaulting to jpg.")
-                imgFace.save(f"saves/{args.save}.jpg")
-        else:
-            giveError("Invalid characters in file name.")
+        saveFile(imgFace)
             
     if not args.no_preview:
         imgFace.show()
