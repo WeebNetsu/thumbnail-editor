@@ -1,0 +1,29 @@
+{
+    "love2d": {
+        "image": "love2d.jpg",
+        "output": "love2d thumbnail.jpg",
+        "text": [
+            {
+                "text": "Lesson 2",
+                "x": 950,
+                "y": 30,
+                "font_size": 60,
+                "font": "ubuntu/Ubuntu-BoldItalic",
+                "color": [0, 0, 0],
+                "border_color": [255, 255, 255],
+                "border_width": 3
+            },
+            {
+                "text": "Config File",
+                "x": 120,
+                "y": 450,
+                "font_size": 140,
+                "font": "ubuntu/Ubuntu-BoldItalic",
+                "color": [0, 0, 0],
+                "border_color": [255, 255, 255],
+                "border_width": 3
+            }
+        ],
+        "save_path": "default"
+    }
+}

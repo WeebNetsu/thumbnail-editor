@@ -1,4 +1,4 @@
-import argparse, re, os
+import argparse, re, os, json
 
 from PIL import Image, ImageDraw, ImageFont
 from termcolor import colored
@@ -9,6 +9,7 @@ Below are working examples:
 python main.py python.jpg -fs 60 90 -x 415 455 -y 405 475 --text "Part 43:" "Lambda Functions" --font ubuntu/Ubuntu-Bold ubuntu/Ubuntu-BoldItalic
 python main.py tkinter.jpg -fs 60 90 -x 80 150 -y 455 525 --text "Lesson 1:" "Creating our first Window" --font ubuntu/Ubuntu-Bold ubuntu/Ubuntu-BoldItalic
 python main.py cpp.jpg -fs 60 140 -x 70 150 -y 350 450 --text "Lesson 2:" "Hello World" --font ubuntu/Ubuntu-Bold ubuntu/Ubuntu-BoldItalic -tc 255 255 255 -bc 0 0 0 -bc 99 154 210 -bw 3
+python main.py love2d.jpg -fs 60 140 -x 950 120 -y 30 450 --text "Lesson 2" "Config File" --font ubuntu/Ubuntu-BoldItalic ubuntu/Ubuntu-BoldItalic -tc 0 0 0 -bc 255 255 255 -bc 255 255 255 -bw 3
 
 Explaination:
 python -> the python program
@@ -23,10 +24,12 @@ python.jpg -> image that should be modified
 1. There has to be ONE image selected and it has to be the FIRST parameter
 2. There should be an equal amount of x, y and text arguments
 3. Text seperated by spaces should be in ""
+
+You can also use a project! Just open thumbnails.conf.json and modify the content! You can read README.md for more information!
 """
 
 parser = argparse.ArgumentParser() # define the parser
-parser.add_argument("image", help="The image that should be modified.", type=str, metavar='')
+parser.add_argument("image", help="The image that should be modified OR the project name.", type=str, metavar='')
 parser.add_argument("--save", "-s", help="The output (save) location of the image.", type=str, metavar='')
 
 # nargs -> allows us to take in multiple values with the same flag eg. -t "hello world" "I am cool" -> ["hello world", "I am cool"]
@@ -39,13 +42,13 @@ parser.add_argument("--text-color", "-tc", help="The color of the text in RGB fo
 parser.add_argument("--border-color", "-bc", help="The color of the border in Tuple-RGB format. eg. -bc 0 100 255", type=int, metavar='', nargs="+", action="append")
 parser.add_argument("--border-width", "-bw", help="The width (size) of text border", type=int, metavar='', nargs="+")
 
-parser.add_argument("--no-border", help="Wether a border should be added round text.", action="store_true")
+parser.add_argument("--no-border", help="Wether a border should be added on text.", action="store_true")
 parser.add_argument("--no-preview", help="Do not show a preview of the image.", action="store_true")
 parser.add_argument("--quiet", help="Ignore all warnings.", action="store_true")
 
-args = parser.parse_args()
+ALLOWED_EXT = ("jpg", "jpeg", "png")
 
-# print(args)
+args = parser.parse_args()
 
 def giveError(message: str) -> None:
     """Display error message and exits program"""
@@ -60,7 +63,7 @@ def giveWarning(message: str) -> None:
 def saveFile(imgFace: Image, fileWarningGiven=False) -> None:
     if not re.search("[^\w\-_\. ]", args.save):
         try:
-            if args.save.split(".")[-1].lower() in ["jpg", "jpeg", "png"]:
+            if args.save.split(".")[-1].lower() in ALLOWED_EXT:
                 imgFace.save(f"saves/{args.save}")
             else:
                 if not fileWarningGiven:
@@ -74,7 +77,7 @@ def saveFile(imgFace: Image, fileWarningGiven=False) -> None:
     else:
         giveError("Invalid characters in file name.")
 
-def drawText(draw, text, font, font_size, x, y, text_color, border_width, border_color) -> None:
+def drawText(draw: ImageDraw, text: str, font: str, font_size: int, x: int, y: int, text_color: tuple, border_width: int, border_color: tuple) -> None:
     """This draws the text to the image, draw and text are required inputs, the rest are optional"""
     drawFont = ImageFont.truetype(f"fonts/{font}.ttf", int(font_size))
 
@@ -87,16 +90,97 @@ def drawText(draw, text, font, font_size, x, y, text_color, border_width, border
         stroke_fill=border_color
     )
     
-def createThumbnail() -> None:
+def setThumbnailConfig() -> Image:
+    """This will set the all the arguments if a project was chosen; AKA, fill in the blanks"""
+    try:
+        confData = json.load(open("thumbnails.conf.json", "r"))[args.image]
+    except KeyError:
+        giveError(f"Could not find project '{args.image}'. If this was supposed to be an image, make sure the extension is one of the following: {ALLOWED_EXT}")
+    else:
+        if args.save == "default":
+            args.save = confData["output"]
+        
+        if not args.text:
+            args.text = []
+        
+        if not args.x_pos:
+            args.x_pos = []
+        
+        if not args.y_pos:
+            args.y_pos = []
+        
+        if not args.font_size:
+            args.font_size = []
+        
+        if not args.font:
+            args.font = []
+        
+        if not args.text_color:
+            args.text_color = []
+        
+        if not args.border_width:
+            args.border_width = []
+        
+        if not args.border_color:
+            args.border_color = []
+
+        try:
+            longer = len(args.text) if len(args.text) > len(confData["text"]) else len(confData["text"])
+            for index in range(longer):
+                try:
+                    conf = confData["text"][index]
+                except IndexError:
+                    conf = confData["text"][-1]
+
+                try:
+                    args.text[index]
+                except IndexError:
+                    args.text.append(conf["text"])
+
+                try:
+                    args.x_pos[index] = args.x_pos[index] if args.x_pos[index] > 0 else conf["x"]
+                except IndexError:
+                    args.x_pos.append(conf["x"])
+
+                try:
+                    args.y_pos[index] = args.y_pos[index] if args.y_pos[index] > 0 else conf["y"]
+                except IndexError:
+                    args.y_pos.append(conf["y"])
+
+                try:
+                    args.font_size[index] = args.font_size[index] if args.font_size[index] > 0 else conf["font_size"]
+                except IndexError:
+                    args.font_size.append(conf["font_size"])
+
+                try:
+                    args.font[index]
+                except IndexError:
+                    args.font.append(conf["font"])
+
+                try:
+                    args.text_color[index]
+                except IndexError:
+                    args.text_color.append(conf["color"])
+
+                try:
+                    args.border_width[index]
+                except IndexError:
+                    args.border_width.append(conf["border_width"])
+
+                try:
+                    args.border_color[index]
+                except IndexError:
+                    args.border_color.append(conf["border_color"])
+        except KeyError:
+            giveError("Uneven amounts of x, y, and/or text provided in defaults or as arguments.")
+
+    return Image.open(f"base-thumbnails/{confData['image']}")
+    
+def createThumbnail(imgFace: Image) -> None:
     """This will create the thumbnail"""
     if args.quiet:
         print("Not showing warnings")
     
-    try:
-        imgFace = Image.open(f"base-thumbnails/{args.image}")
-    except FileNotFoundError:
-        giveError(f"Image {args.image} could not be found inside the 'base-thumbnails' directory.")
-
     draw = ImageDraw.Draw(imgFace)
     count = 0
     for text, x_pos, y_pos in zip(args.text, args.x_pos, args.y_pos):
@@ -109,6 +193,8 @@ def createThumbnail() -> None:
         
         try:
             font_family = args.font[count]
+            if font_family == "default":
+                raise TypeError
         except IndexError:
             font_family = args.font[-1]
         except TypeError:
@@ -116,6 +202,8 @@ def createThumbnail() -> None:
         
         try:
             text_color = tuple(args.text_color[count])
+            if text_color == tuple("default"):
+                raise TypeError
         except IndexError:
             text_color = tuple(args.text_color[-1])
         except TypeError:
@@ -124,6 +212,8 @@ def createThumbnail() -> None:
         if not args.no_border:
             try:
                 border_width = args.border_width[count]
+                if border_width == "default":
+                    raise TypeError
             except IndexError:
                 border_width = args.border_width[-1]
             except TypeError:
@@ -133,6 +223,8 @@ def createThumbnail() -> None:
         
         try:
             border_color = tuple(args.border_color[count])
+            if border_color == tuple("default"):
+                raise TypeError
         except IndexError:
             border_color = tuple(args.border_color[-1])
         except TypeError:
@@ -151,31 +243,17 @@ def createThumbnail() -> None:
         giveWarning("Not showing preview.")
             
 if __name__ == '__main__':
-    if (len(args.x_pos) != len(args.y_pos)) or (len(args.x_pos) != len(args.text)):
-        giveError("x, y and text does not have the same amount of arguments.")
-        
-    createThumbnail()
+    try:
+        if args.image.split(".")[-1].lower() in ALLOWED_EXT:
+            imgFace = Image.open(f"base-thumbnails/{args.image}")
+        else:
+            imgFace = setThumbnailConfig()
 
-# python main.py --python --image:python.jpg --fs:60 --x:415 --y:405 --text:"Part 43:" --font:ubuntu/Ubuntu-Bold --text:"Lambda Functions" --x:455 --y:475 --fs:90 --font:ubuntu/Ubuntu-BoldItalic
-
-"""
-def getThumbailConfig(self, project: str) -> str:
-        # This will get the config for the specific project entered
-        with open("thumbnails.te", "r") as tFile:
-            thumbnails = tFile.readlines()
-
-            for line in thumbnails:
-                texts = ""
-                if not (line.startswith("#") or line == "\n"):
-                    try:
-                        texts = line[:line.index("#")].split(" ")
-                    except ValueError: # if # was not found in string
-                        texts = line.split(" ")
-                    
-                    # print(texts[0])
-                    if texts[0].strip() == project.strip():
-                        texts.pop(0)
-                        return texts
-        
-        return ""
-"""
+        if (len(args.x_pos) != len(args.y_pos)) or (len(args.x_pos) != len(args.text)):
+            giveError("x, y and text does not have the same amount of arguments.")
+    except TypeError:
+        giveError("x position, y position and/or text was not provided")
+    except FileNotFoundError:
+        giveError(f"Image {args.image} could not be found inside the 'base-thumbnails' directory.")
+    else:
+        createThumbnail(imgFace)

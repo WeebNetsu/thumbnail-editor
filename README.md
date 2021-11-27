@@ -1,14 +1,21 @@
-# thumbnail-editor
+# Thumbnail Editor
 
 A thumbnail editor for influencers to speed up the creation process!
 
-**NOTE: This software is still in development**
+If you are an educational YouTuber then you probably create thumbnails that looks the same, but have different text on it. This software here is designed to make the process of opening a project in GIMP/Photoshop, then editing the text, setting the borders etc. and finally saving it as a jpg or png, a lot shorter! You just design a template, create a project, and boom! You can easily generate yourself a thumbnail by quickly passing in some arguments to the terminal!
 
-## For who is this?
+## Topics
+- [Who is this for](#who-is-this-for)
+- [How does it work?](#how-does-it-work)
+- [Using a project](#using-a-project)
+- [Python Requirements](#python-requirements)
+- [Arguments](#arguments)
+
+<h2 id="who-is-this-for">Who is this for?</h2>
 
 This is for people who need to create new thumbnails from templates they have already made and just need to change the text every time.
 
-## How does this work?
+<h2 id="how-does-it-work">How does it work?</h2>
 
 It's as basic as opening the terminal and executing the program with arguments/flags. Flags is mainly in this format: **--flag-name value1 value2**. For help you can do the following: `python main.py --help`, or read the code, it's not a lot. This is a working example you can use: `python main.py python.jpg -fs 60 90 -x 415 455 -y 405 475 --text "Part 43:" "Lambda Functions" --font ubuntu/Ubuntu-Bold ubuntu/Ubuntu-BoldItalic`
 
@@ -28,14 +35,53 @@ A breakdown of the above:
 
 `--font ubuntu/Ubuntu-Bold ubuntu/Ubuntu-BoldItalic` - the font family that should be used (can be found inside the fonts/ folder, you can add your own as long as it is in .ttf format :D), the first piece of text will be in Ubuntu-Bold and all the rest in Ubuntu-BoldItalic
 
-## Python Requirements
+<h2 id="using-a-project">Using a project</h2>
+You'll notice a file called `thumbnails.conf.json`, this is where you can specify defaults for your thumbnails. Here is the breakdown:
+```json
+{
+    "love2d": { // project name
+        "image": "love2d.jpg", // image to use
+        "output": "love2d thumbnail.jpg", // output name (used on save)
+        "text": [ // all text to be added to image
+            {
+                "text": "Lesson 2", // text itself
+                "x": 950, // x position
+                "y": 30, // y position
+                "font_size": 60, // font size
+                "font": "ubuntu/Ubuntu-BoldItalic", // font
+                "color": [0, 0, 0], // color (in RGB)
+                "border_color": [255, 255, 255], // border color (in RGB)
+                "border_width": 3 // border width
+            },
+            ...
+        ],
+        "save_path": "default" // save path (NOT IMPLEMENTED)
+    }
+}
+```
+
+An example of using a project looks like this: `python main.py love2d -fs 0 60 --font default ubuntu/Ubuntu-BoldItalic --save default`
+
+Let me explain:
+
+`python main.py love2d` - notice that love2d does not have a **.jpg, .jpeg** or **.png** extension, this is to specify that we want to use a project from inside the thumbnails.conf.json file.
+
+`-fs 0 60` - this will use the default font size specified in the in the love2d project for the first piece of text, and use 60px for the second
+
+`--font default ubuntu/Ubuntu-BoldItalic` - the first text will use the default (**NOT specified inside the project**, thus also allowing you to use default even when you're not using a project), and the second will use ubuntu font
+
+`--save default` - this will save the file with the default "output" name given to the project
+
+The nice thing about using a project is that you can now type less and just use a project to copy/paste the code for you that you aren't changing.
+
+<h2 id="python-requirements">Python Requirements</h2>
 
 - PIL
 - termcolor
 
 ---
 
-## Arguments:
+<h2 id="arguments">Arguments</h2>
 
 image (required)
 : **USAGE:** imagename.jpg _or_ "image name.jpg"
