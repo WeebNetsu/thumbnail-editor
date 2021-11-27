@@ -37,6 +37,7 @@ A breakdown of the above:
 
 <h2 id="using-a-project">Using a project</h2>
 You'll notice a file called `thumbnails.conf.json`, this is where you can specify defaults for your thumbnails. Here is the breakdown:
+
 ```json
 {
     "love2d": { // project name
