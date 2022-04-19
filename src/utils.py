@@ -2,8 +2,11 @@ import re, os, json
 
 from PIL import Image, ImageDraw, ImageFont
 
-from .cli import giveWarning, giveError
-from .parser import args
+from cli import giveWarning, giveError
+from parser import args
+
+ALLOWED_EXT = ("jpg", "jpeg", "png")
+THUMB_CONF_FILE_PATH = "conf/thumbnails.conf.json"  # from root
 
 
 def saveFile(imgFace: Image, fileWarningGiven=False) -> None:
@@ -51,7 +54,7 @@ def drawText(
 def setThumbnailConfig() -> Image:
     """This will set the all the arguments if a project was chosen; AKA, fill in the blanks"""
     try:
-        confData = json.load(open("thumbnails.conf.json", "r"))[args.image]
+        confData = json.load(open(f"../{THUMB_CONF_FILE_PATH}", "r"))[args.image]
     except KeyError:
         giveError(
             f"Could not find project '{args.image}'. If this was supposed to be an image, make sure the extension is one of the following: {ALLOWED_EXT}"

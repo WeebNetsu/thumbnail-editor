@@ -1,5 +1,5 @@
 from termcolor import colored
-from .parser import args
+from parser import args
 
 
 def giveError(message: str) -> None:
