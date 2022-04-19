@@ -87,152 +87,104 @@ The nice thing about using a project is that you can now type less and just use 
 
 ### _image (required):_
 
-**USAGE:** imagename.jpg _or_ "image name.jpg"
-
-**DESCRIPTION:** This is the name of the image you want to modify.
-
-**DEFAULT:** N/A
-
-**RULES:** This has to be the first argument to be passed in.
-
-**EXAMPLE:** `python main.py myimage.jpg`
+> **USAGE:** imagename.jpg _or_ "image name.jpg"
+> **DESCRIPTION:** This is the name of the image you want to modify.
+> **DEFAULT:** N/A
+> **RULES:** This has to be the first argument to be passed in.
+> **EXAMPLE:** `python main.py myimage.jpg`
 
 ### _--text (required):_
 
-**USAGE:** --text _or_ -t
-
-**DESCRIPTION:** The text that should be added to your image.
-
-**DEFAULT:** N/A
-
-**RULES:** No spaces allowed if text is not wrapped in double quotes.
-
-**EXAMPLE:** `python main.py myimage.jpg --text "My first text" mySeconText`
+> **USAGE:** --text _or_ -t
+> **DESCRIPTION:** The text that should be added to your image.
+> **DEFAULT:** N/A
+> **RULES:** No spaces allowed if text is not wrapped in double quotes.
+> **EXAMPLE:** `python main.py myimage.jpg --text "My first text" mySeconText`
 
 ### _--x-pos (required):_
 
-**USAGE:** --x-pos _or_ -x
-
-**DESCRIPTION:** The x (horizontal) position of your text.
-
-**DEFAULT:** N/A
-
-**RULES:** There should be the same amount of --x-pos arguments as there are --y-pos arguments and --text arguments.
-**EXAMPLE:** `python main.py myimage.jpg -t "Hello Tim" "Part 1" -x 200 250`
+> **USAGE:** --x-pos _or_ -x
+> **DESCRIPTION:** The x (horizontal) position of your text.
+> **DEFAULT:** N/A
+> **RULES:** There should be the same amount of --x-pos arguments as there are --y-pos arguments and --text arguments.
+> **EXAMPLE:** `python main.py myimage.jpg -t "Hello Tim" "Part 1" -x 200 250`
 
 ### _--y-pos (required):_
 
-**USAGE:** --y-pos _or_ -y
-
-**DESCRIPTION:** The y (vertical) position of your text.
-
-**DEFAULT:** N/A
-
-**RULES:** There should be the same amount of --y-pos arguments as there are --x-pos arguments and --text arguments.
-**EXAMPLE:** `python main.py myimage.jpg -t "Hello Tim" "Part 1" -y 200 250`
+> **USAGE:** --y-pos _or_ -y
+> **DESCRIPTION:** The y (vertical) position of your text.
+> **DEFAULT:** N/A
+> **RULES:** There should be the same amount of --y-pos arguments as there are --x-pos arguments and --text arguments.
+> **EXAMPLE:** `python main.py myimage.jpg -t "Hello Tim" "Part 1" -y 200 250`
 
 ### _--save:_
 
-**USAGE:** --save _or_ -s
-
-**DESCRIPTION:** This allows you to save your file via the terminal.
-
-**DEFAULT:** N/A
-
-**RULES:** Input should not contain strings that are not allowed in file names. (ie "/"). Extension should be .jpg or .png.
-**EXAMPLE:** `python main.py myimage.jpg --save "my image.png"`
+> **USAGE:** --save _or_ -s
+> **DESCRIPTION:** This allows you to save your file via the terminal.
+> **DEFAULT:** N/A
+> **RULES:** Input should not contain strings that are not allowed in file names. (ie "/"). Extension should be .jpg or .png.
+> **EXAMPLE:** `python main.py myimage.jpg --save "my image.png"`
 
 ### _--font:_
 
-**USAGE:** --font _or_ -f
-
-**DESCRIPTION:** The font you want your text to be displayed in. Fonts can be found inside the `fonts/` folder.
-
-**DEFAULT:** open_sans/OpenSans-Regular
-
-**RULES:** Only .ttf fonts are allowed.
-**EXAMPLE:** `python main.py myimage.jpg -t "Hello Tim" --font ubuntu/Ubuntu-BoldItalic`
+> **USAGE:** --font _or_ -f
+> **DESCRIPTION:** The font you want your text to be displayed in. Fonts can be found inside the `fonts/` folder.
+> **DEFAULT:** open_sans/OpenSans-Regular
+> **RULES:** Only .ttf fonts are allowed.
+> **EXAMPLE:** `python main.py myimage.jpg -t "Hello Tim" --font ubuntu/Ubuntu-BoldItalic`
 
 ### _--font-size:_
 
-**USAGE:** --font-size _or_ -fs
-
-**DESCRIPTION:** The size of your text font.
-
-**DEFAULT:** 60
-
-**RULES:** Only _integers_ allowed.
-
-**EXAMPLE:** `python main.py myimage.jpg -t "Hello Tim" "Part 1" -fs 60 20`
+> **USAGE:** --font-size _or_ -fs
+> **DESCRIPTION:** The size of your text font.
+> **DEFAULT:** 60
+> **RULES:** Only _integers_ allowed.
+> **EXAMPLE:** `python main.py myimage.jpg -t "Hello Tim" "Part 1" -fs 60 20`
 
 ### _--text-color:_
 
-**USAGE:** --text-color _or_ -tc
-
-**DESCRIPTION:** The color of your text.
-
-**DEFAULT:** Black
-
-**RULES:** Has to be in RGB values.
-
-**EXAMPLE:** `python main.py myimage.jpg -t "Hello Tim" "Part 1" -tc 255 255 255 -tc 0 0 0`
+> **USAGE:** --text-color _or_ -tc
+> **DESCRIPTION:** The color of your text.
+> **DEFAULT:** Black
+> **RULES:** Has to be in RGB values.
+> **EXAMPLE:** `python main.py myimage.jpg -t "Hello Tim" "Part 1" -tc 255 255 255 -tc 0 0 0`
 
 ### _--border-color:_
 
-**USAGE:** --border-color _or_ -bc
-
-**DESCRIPTION:** The color of the border around your text.
-
-**DEFAULT:** White
-
-**RULES:** Has to be in RGB values.
-
-**EXAMPLE:** `python main.py myimage.jpg -t "Hello Tim" "Part 1" -bc 255 255 255 -bc 0 0 0`
+> **USAGE:** --border-color _or_ -bc
+> **DESCRIPTION:** The color of the border around your text.
+> **DEFAULT:** White
+> **RULES:** Has to be in RGB values.
+> **EXAMPLE:** `python main.py myimage.jpg -t "Hello Tim" "Part 1" -bc 255 255 255 -bc 0 0 0`
 
 ### _--border-width:_
 
-**USAGE:** --border-width _or_ -bw
-
-**DESCRIPTION:** The width of your text border. Set it to 0 for no border, or use --no-border flag.
-
-**DEFAULT:** 2
-
-**RULES:** Only _integers_ allowed.
-
-**EXAMPLE:** `python main.py myimage.jpg -t "Hello Tim" "Part 1" -bw 5 10`
+> **USAGE:** --border-width _or_ -bw
+> **DESCRIPTION:** The width of your text border. Set it to 0 for no border, or use --no-border flag.
+> **DEFAULT:** 2
+> **RULES:** Only _integers_ allowed.
+> **EXAMPLE:** `python main.py myimage.jpg -t "Hello Tim" "Part 1" -bw 5 10`
 
 ### _--no-border:_
 
-**USAGE:** --no-border
-
-**DESCRIPTION:** Removes border from text.
-
-**DEFAULT:** N/A
-
-**RULES:** N/A
-
-**EXAMPLE:** `python main.py myimage.jpg --text "Hello Tim" --no-border`
+> **USAGE:** --no-border
+> **DESCRIPTION:** Removes border from text.
+> **DEFAULT:** N/A
+> **RULES:** N/A
+> **EXAMPLE:** `python main.py myimage.jpg --text "Hello Tim" --no-border`
 
 ### _--no-preview:_
 
-**USAGE:** --no-preview
-
-**DESCRIPTION:** Do not show preview of image.
-
-**DEFAULT:** N/A
-
-**RULES:** N/A
-
-**EXAMPLE:** `python main.py myimage.jpg --text "Hello Tim" --no-preview`
+> **USAGE:** --no-preview
+> **DESCRIPTION:** Do not show preview of image.
+> **DEFAULT:** N/A
+> **RULES:** N/A
+> **EXAMPLE:** `python main.py myimage.jpg --text "Hello Tim" --no-preview`
 
 ### _--quiet:_
 
-**USAGE:** --quiet
-
-**DESCRIPTION:** Do not show warnings.
-
-**DEFAULT:** N/A
-
-**RULES:** N/A
-
-**EXAMPLE:** `python main.py myimage.jpg -t "hello" -s "s" --quiet`
+> **USAGE:** --quiet
+> **DESCRIPTION:** Do not show warnings.
+> **DEFAULT:** N/A
+> **RULES:** N/A
+> **EXAMPLE:** `python main.py myimage.jpg -t "hello" -s "s" --quiet`
