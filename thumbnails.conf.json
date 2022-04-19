@@ -1,29 +1,83 @@
 {
-    "love2d": {
-        "image": "love2d.jpg",
-        "output": "love2d thumbnail.jpg",
-        "text": [
-            {
-                "text": "Lesson 2",
-                "x": 950,
-                "y": 30,
-                "font_size": 60,
-                "font": "ubuntu/Ubuntu-BoldItalic",
-                "color": [0, 0, 0],
-                "border_color": [255, 255, 255],
-                "border_width": 3
-            },
-            {
-                "text": "Config File",
-                "x": 120,
-                "y": 450,
-                "font_size": 140,
-                "font": "ubuntu/Ubuntu-BoldItalic",
-                "color": [0, 0, 0],
-                "border_color": [255, 255, 255],
-                "border_width": 3
-            }
-        ],
-        "save_path": "default"
-    }
+	"love2d": {
+		"image": "love2d.jpg",
+		"output": "love2d thumbnail.jpg",
+		"text": [
+			{
+				"text": "Lesson 2",
+				"x": 950,
+				"y": 30,
+				"font_size": 60,
+				"font": "ubuntu/Ubuntu-BoldItalic",
+				"color": [0, 0, 0],
+				"border_color": [255, 255, 255],
+				"border_width": 3
+			},
+			{
+				"text": "Config File",
+				"x": 120,
+				"y": 450,
+				"font_size": 140,
+				"font": "ubuntu/Ubuntu-BoldItalic",
+				"color": [0, 0, 0],
+				"border_color": [255, 255, 255],
+				"border_width": 3
+			}
+		],
+		"save_path": "default"
+	},
+	"cpp": {
+		"image": "cpp.jpg",
+		"output": "cpp thumbnail.jpg",
+		"text": [
+			{
+				"text": "Lesson 2",
+				"x": 70,
+				"y": 350,
+				"font_size": 60,
+				"font": "ubuntu/Ubuntu-Bold",
+				"color": [255, 255, 255],
+				"border_color": [0, 0, 0],
+				"border_width": 3
+			},
+			{
+				"text": "Hello World",
+				"x": 150,
+				"y": 450,
+				"font_size": 140,
+				"font": "ubuntu/Ubuntu-BoldItalic",
+				"color": [255, 255, 255],
+				"border_color": [99, 154, 210],
+				"border_width": 3
+			}
+		],
+		"save_path": "default"
+	},
+	"bs": {
+		"image": "bootstrap.jpg",
+		"output": "bs thumbnail.jpg",
+		"text": [
+			{
+				"text": "Lesson 2",
+				"x": 50,
+				"y": 20,
+				"font_size": 60,
+				"font": "open_sans/OpenSans-Bold",
+				"color": [0, 0, 0],
+				"border_color": [255, 255, 255],
+				"border_width": 3
+			},
+			{
+				"text": "The Grid System",
+				"x": 40,
+				"y": 520,
+				"font_size": 110,
+				"font": "open_sans/OpenSans-Bold",
+				"color": [0, 0, 0],
+				"border_color": [255, 255, 255],
+				"border_width": 5
+			}
+		],
+		"save_path": "default"
+	}
 }
