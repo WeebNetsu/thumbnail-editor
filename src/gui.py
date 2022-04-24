@@ -2,10 +2,10 @@ import json
 
 from tkinter import *
 
-from utils import THUMB_CONF_FILE_PATH
+from .utils import THUMB_CONF_FILE_PATH
 
 # THUMB_CONF_FILE_PATH -> from root, we need to path to it manuallu
-file = open(f"../{THUMB_CONF_FILE_PATH}", "r")
+file = open(THUMB_CONF_FILE_PATH, "r")
 json_stuff = json.load(file)  # will read from file (and convert to dictionary)
 file.close()
 print(json_stuff)

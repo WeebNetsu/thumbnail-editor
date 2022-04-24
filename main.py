@@ -2,9 +2,7 @@ from PIL import Image
 
 from src.cli import giveError
 from src.parser import args
-from src.utils import createThumbnail, setThumbnailConfig
-
-ALLOWED_EXT = ("jpg", "jpeg", "png")
+from src.utils import createThumbnail, setThumbnailConfig, ALLOWED_EXT
 
 if __name__ == "__main__":
     try:
